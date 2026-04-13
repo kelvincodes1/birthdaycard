@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Arnold!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop>
+        <!-- Ensure you have a file named 'happy-birthday.mp3' in the same folder -->
+        <source src="happy-birthday.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Toggle Button -->
+    <button class="music-btn" id="musicToggle" aria-label="Toggle Music">
+        <svg class="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+    </button>
+
+    <!-- Canvas for Confetti -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="floating-hearts" id="heartsContainer"></div>
+    <div class="sparkles" id="sparklesContainer"></div>
+    
+    <main class="container">
+        <header class="header">
+            <h1 class="title">Happy Birthday, Arnold!</h1>
+            <p class="subtitle">Wishing you a day filled with peace and joy</p>
+        </header>
+
+        <section class="cake-section">
+            <div class="cake-wrapper" id="cakeWrapper">
+                <div class="plate"></div>
+                <div class="cake">
+                    <div class="layer layer-bottom"></div>
+                    <div class="layer layer-middle"></div>
+                    <div class="layer layer-top"></div>
+                    <div class="frosting"></div>
+                    <div class="drip drip-1"></div>
+                    <div class="drip drip-2"></div>
+                    <div class="drip drip-3"></div>
+                    <div class="drip drip-4"></div>
+                    <div class="drip drip-5"></div>
+                </div>
+                
+                <div class="candle-container">
+                    <div class="candle">
+                        <div class="wick"></div>
+                        <div class="flame" id="flame">
+                            <div class="flame-inner"></div>
+                        </div>
+                        <div class="glow" id="glow"></div>
+                    </div>
+                </div>
+                
+                <div class="click-hint" id="clickHint">
+                    <span>Click the flame to make a wish</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="message-section" id="messageSection">
+            <div class="message-card">
+                <div class="card-decoration top-left"></div>
+                <div class="card-decoration top-right"></div>
+                <div class="card-decoration bottom-left"></div>
+                <div class="card-decoration bottom-right"></div>
+                
+                <h2 class="message-title">A Special Message</h2>
+                <div id="typewriterContainer">
+                    <p class="message-text" id="messageText1"></p>
+                    <p class="message-text" id="messageText2"></p>
+                </div>
+                <p class="signature">With all my love, always</p>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <h2 class="gallery-title">Happy Birthday, Arnold!</h2>
+            <div class="gallery">
+                <!-- Magical Photo Frame -->
+                <div class="photo-frame">
+                    <div class="magic-shine"></div>
+                    <!-- Replace 'him.jpg' with your actual image file name -->
+                    <img src="him.jpg" alt="Memory 1" class="photo">
+                    <div class="photo-caption">Birthday boy!</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p class="footer-text">Made with love, just for you</p>
+            <div class="heart-icon">
+                <svg viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M16 28.72a3 3 0 0 1-2.13-.88L3.57 17.54a8.72 8.72 0 0 1-2.52-6.25 8.06 8.06 0 0 1 8.14-8A8.06 8.06 0 0 1 16 6.17a8.06 8.06 0 0 1 6.81-2.87 8.06 8.06 0 0 1 8.14 8 8.72 8.72 0 0 1-2.52 6.25l-10.3 10.3a3 3 0 0 1-2.13.88z"/>
+                </svg>
+            </div>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
