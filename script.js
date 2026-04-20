@@ -2,9 +2,23 @@
 let isPlaying = false;
 let isBlown = false;
 const audio = document.getElementById('bgMusic');
-
+function fadeInAudio() {
+  audio.volume = 0;
+  fadeInAudio();
+  
+  let vol = 0;
+  const fade = setInterval(() => {
+    if (vol < 1) {
+      vol += 0.05;
+      audio.volume = vol;
+    } else {
+      clearInterval(fade);
+    }
+  }, 100);
+}
 // ===== Initialize on DOM Load =====
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("click", (e) => {
+    launchConfetti();
     initFloatingHearts();
     initSparkles();
     initCandleInteraction();
@@ -12,11 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
     initParallax();
     initScrollAnimations();
     initAutoPlayUnlock();
+    initWishButton();
 
     // display the special message immediately on page enter
     typeWriterEffect();
 });
+let introCount = 3;
+const introEl = document.getElementById("introCount");
+const introScreen = document.getElementById("intro");
 
+const introInterval = setInterval(() => {
+  introCount--;
+  introEl.textContent = introCount;
+
+  if (introCount === 0) {
+    clearInterval(introInterval);
+    introScreen.style.opacity = "0";
+    setTimeout(() => introScreen.remove(), 800);
+  }
+}, 1000);
 // ===== Autoplay Unlock =====
 // Browsers block autoplay. This function tries to play on the first user interaction (click/scroll).
 function initAutoPlayUnlock() {
@@ -65,7 +93,7 @@ function initMusicToggle() {
             audio.pause();
             updateMusicIcon(false);
         } else {
-            audio.play();
+           fadeInAudio(); 
             updateMusicIcon(true);
         }
         isPlaying = !isPlaying;
@@ -95,7 +123,7 @@ function createHeart(container, index) {
 // ===== Sparkles =====
 function initSparkles() {
     const container = document.getElementById('sparklesContainer');
-    setInterval(() => createSparkle(container), 300);
+    setInterval(() => createSparkle(container), 200);
 }
 
 function createSparkle(container) {
@@ -106,13 +134,46 @@ function createSparkle(container) {
     container.appendChild(sparkle);
     setTimeout(() => sparkle.remove(), 2000);
 }
+document.querySelectorAll(".photo").forEach(img => {
+  img.addEventListener("click", () => {
+    const overlay = document.createElement("div");
+    overlay.style = `
+      position:fixed;inset:0;
+      background:black;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:3000;
+    `;
 
+    const big = document.createElement("img");
+    big.src = img.src;
+    big.style.maxWidth = "90%";
+    big.style.borderRadius = "10px";
+
+    overlay.appendChild(big);
+    overlay.onclick = () => overlay.remove();
+
+    document.body.appendChild(overlay);
+  });
+});
+setTimeout(() => {
+  typeWriter(el2, msg2, 0, null);
+}, 800);
+function secret() {
+  launchConfetti();
+  alert("You mean the world to me 💖");
+}
 // ===== Candle & Wish Interaction =====
 function initCandleInteraction() {
     const flame = document.getElementById('flame');
     const glow = document.getElementById('glow');
     const hint = document.getElementById('clickHint');
     const cakeWrapper = document.getElementById('cakeWrapper');
+    const smoke = document.createElement("div");
+    smoke.className = "smoke";
+    flame.appendChild(smoke);
+    setTimeout(() => smoke.remove(), 1500);
 
     cakeWrapper.addEventListener('click', (e) => {
         if (!isBlown) {
@@ -123,6 +184,14 @@ function initCandleInteraction() {
             
             // 2. Trigger confetti only (message shown on load)
             launchConfetti();
+            
+            // 3. Start music if not already playing
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicIcon(true);
+                }).catch(e => console.log("Music play failed"));
+            }
             
             // leave candle blown indefinitely until page reload
             isBlown = true;
@@ -139,7 +208,7 @@ function launchConfetti() {
 
     const confettiCount = 150;
     const confetti = [];
-    const colors = ['#d4a5a5', '#c9a959', '#e8c4c4', '#ffd93d', '#fff'];
+   const colors = ['#f5e6d3', '#d4a5a5', '#c9a959', '#fff0f5'];
 
     class Confetto {
         constructor() {
@@ -192,11 +261,42 @@ function launchConfetti() {
     animateConfetti();
 }
 
+// ===== Launch Hearts (Burst Effect) =====
+function launchHearts() {
+    const heartCount = 30;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    for (let i = 0; i < heartCount; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'wish-heart';
+            heart.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 28.72a3 3 0 0 1-2.13-.88L3.57 17.54a8.72 8.72 0 0 1-2.52-6.25 8.06 8.06 0 0 1 8.14-8A8.06 8.06 0 0 1 16 6.17a8.06 8.06 0 0 1 6.81-2.87 8.06 8.06 0 0 1 8.14 8 8.72 8.72 0 0 1-2.52 6.25l-10.3 10.3a3 3 0 0 1-2.13.88z"/></svg>`;
+            
+            // Calculate random burst direction
+            const angle = (Math.PI * 2 * i) / heartCount;
+            const distance = 150 + Math.random() * 100;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance - 200; // Extra upward movement
+            
+            heart.style.left = centerX + 'px';
+            heart.style.top = centerY + 'px';
+            heart.style.setProperty('--tx', tx + 'px');
+            heart.style.setProperty('--ty', ty + 'px');
+            
+            document.body.appendChild(heart);
+            
+            // Remove heart after animation completes
+            setTimeout(() => heart.remove(), 2500);
+        }, i * 30);
+    }
+}
+
 // ===== Typewriter Effect =====
 function typeWriterEffect() {
-    const msg1 = "On this beautiful day, Arnold, I want you to know how incredibly special you are to me. Every moment with you feels like a gift, and today we celebrate the day the world became brighter because you were born.";
+    const msg1 = "On this beautiful day, Faith, I want you to know how incredibly special you are to me. Every moment with you feels like a gift, and today we celebrate the day the world became brighter because you were born.";
     // added a short romantic happy birthday line after the original message
-    const msg2 = "May your year be filled with endless joy, laughter, and all the love your heart can hold. Here's to another year of beautiful memories together, Arnold. Happy birthday, my love – may your day be as magical and enchanting as you are.";
+    const msg2 = "May your year be filled with endless joy, laughter, and al lol theve your heart can hold. Here's to another year of beautiful memories together, Faith. Happy birthday, my love – may your day be as magical and enchanting as you are.";
     
     const el1 = document.getElementById('messageText1');
     const el2 = document.getElementById('messageText2');
@@ -231,7 +331,13 @@ function initParallax() {
     });
 }
 
-// ===== Scroll Animations =====
+// ===== Wish Button =====
+function initWishButton() {
+    const wishBtn = document.getElementById('wishBtn');
+    wishBtn.addEventListener('click', () => {
+        launchHearts();
+    });
+}
 function initScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

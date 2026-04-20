@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday, "Name"!</title>
+    <title>Happy Birthday, Faith!</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="intro" class="intro-screen">
+  <h1>Get Ready...</h1>
+  <div id="introCount">3</div>
+</div>
     <!-- Audio Element -->
     <audio id="bgMusic" loop>
         <!-- Ensure you have a file named 'happy-birthday.mp3' in the same folder -->
-        <source src="happy-birthday.mp3" type="audio/mpeg">
+        <source src="herr.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -34,7 +38,7 @@
     
     <main class="container">
         <header class="header">
-            <h1 class="title">Happy Birthday, "Name"!</h1>
+            <h1 class="title">Happy Birthday, Faith!</h1>
             <p class="subtitle">Wishing you a day filled with peace and joy</p>
         </header>
 
@@ -85,15 +89,26 @@
             </div>
         </section>
 
+        <section class="wish-section">
+            <button class="wish-btn" id="wishBtn">Send a Birthday Wish</button>
+        </section>
+<button onclick="secret()">Secret✨</button>
         <section class="gallery-section">
-            <h2 class="gallery-title">Happy Birthday, "Name"!</h2>
+            <h2 class="gallery-title">Happy Birthday, Faith!</h2>
             <div class="gallery">
                 <!-- Magical Photo Frame -->
                 <div class="photo-frame">
                     <div class="magic-shine"></div>
                     <!-- Replace 'him.jpg' with your actual image file name -->
-                    <img src="him.jpeg" alt="Memory 1" class="photo">
-                    <div class="photo-caption">Birthday boy!</div>
+                    <img src="her.jpeg" alt="Memory 1" class="photo">
+                    <div class="photo-caption">Birthday Girl!</div>
+                </div>
+                <!-- Magical Photo Frame -->
+                <div class="photo-frame">
+                    <div class="magic-shine"></div>
+                    <!-- Replace 'him.jpg' with your actual image file name -->
+                    <img src="her1.jpeg" alt="Memory 2" class="photo">
+                    <div class="photo-caption">Birthday girl!</div>
                 </div>
             </div>
         </section>
